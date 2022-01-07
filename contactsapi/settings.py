@@ -10,9 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import environ
 from pathlib import Path
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -40,6 +44,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'authentication',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'authentication.backends.JWTAuthentication',
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -114,6 +124,9 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# JWT_SECRET_KEY
+JWT_SECRET_KEY = env('JWT_SECRET_KEY')
 
 
 # Static files (CSS, JavaScript, Images)
